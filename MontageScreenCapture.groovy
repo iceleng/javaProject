@@ -3,6 +3,7 @@ import groovy.json.JsonSlurper
 def ffmpeg="D:/Tools/ffmpeg-20150810-git-7a7ca3c-win32-static/bin/ffmpeg.exe"
 def ffprobe="D:/Tools/ffmpeg-20150810-git-7a7ca3c-win32-static/bin/ffprobe.exe"
 def convert="D:/Tools/ImageMagick-6.9.1-Q16/convert.exe"
+def composite="D:/Tools/ImageMagick-6.9.1-Q16/composite.exe"
 def montage="D:/Tools/ImageMagick-6.9.1-Q16/montage.exe"
 def movie="D:/Books/2015/201506/Wolf.Warriors.2015.1080p.WEB-DL.x264.AAC-SeeHD.mkv"
 movie="D:/Workspace/Entertainment/cartoon/Pepper Pig/1/s1 01 Muddy Puddles.avi"
@@ -96,6 +97,18 @@ cmd="${convert} output.jpg -background lavender -font YaHei.Consolas.1.12.ttf -p
 
 //文字水印
 cmd="${convert} output_title.jpg -gravity NorthEast -fill Black -pointSize 40 -draw \"text 15,25 'FFmpeg & ImageMagick'\" output_title.jpg ".execute().waitForProcessOutput(out1,err1)
+//png的图片可以背景透明
+cmd="${convert} -background none -fill white -font YaHei.Consolas.1.12.ttf -pointsize 48 -stroke black -strokewidth 2 -gravity center -rotate 360 label:\"这是ice制作的文字水印\" waterMark.png".execute().waitForProcessOutput(out1,err1)
+
+//制作带阴影的水印
+cmd="${convert} -size 520x65 xc:none -font YaHei.Consolas.1.12.ttf -pointsize 48 -stroke black -strokewidth 2 -annotate +5+50 \"这是ice制作的文字水印\" -blur 0x6 -fill White -stroke Black -annotate +0+45 \"这是ice制作的文字水印\" watermark_shadow.png"
+println cmd
+cmd.execute().waitForProcessOutput(out1,err1)
+
+//合成透明水印！cool
+cmd="${composite} -dissolve 60 -gravity center -geometry +0+60 watermark_shadow.png output_title.jpg output_title_watermark60.jpg".execute().waitForProcessOutput(out1,err1)
+
+cmd="${composite} -gravity center -geometry +0+60 watermark_shadow.png output_title.jpg output_title_watermark.jpg".execute().waitForProcessOutput(out1,err1)
 
 //cmd="${convert} -size 480x80 xc:lavender -pointsize 44 -annotate +5+50 \"FFmpeg & ImageMagick\" -blur 0x6 -fill White -stroke Black -annotate +0+45 \"FFmpeg & ImageMagick\" font_shadow_fuzzy.jpg".execute().waitForProcessOutput(out1,err1)
 

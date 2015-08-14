@@ -2,7 +2,6 @@ import org.apache.log4j.Logger
 import groovy.json.JsonSlurper
 
 log = Logger.getLogger("ScanMovies")
-
 log.info "action=start info=\"begin scan movies\""
 
 workspace="./output/"
@@ -13,6 +12,7 @@ ffprobe=ffmpegDir+"ffprobe.exe"
 //===montage路径设定===
 montage="D:/Program Files/ImageMagick-6.9.1-Q16/montage.exe"
 convert="D:/Program Files/ImageMagick-6.9.1-Q16/convert.exe"
+composite="D:/Program Files/ImageMagick-6.9.1-Q16/composite.exe"
 //===mplayer路径设置===
 mplayer="./mplayer.exe"
 //===待分析电影路径===
@@ -20,6 +20,7 @@ movieDir="J:/backup/hmovie/201405"
 movieDir="J:/backup/卡通"
 //movieFile="J:/backup/done/[阳光电影www.ygdy8.com].哆啦A梦：伴我同行.BD.720p.国粤日三语中字.mkv"
 movieFile="J:/backup/hmovie/201508/20150809_7_高清_有码_丰满大胸美女各种主动_PPPD298.mkv"
+movieFile="J:/backup/hmovie/201409/20140913_8_标清_无码_高诚_加勒比群P_txmsf.rmvb"
 
 err = new StringWriter()
 out = new StringWriter()
@@ -89,9 +90,18 @@ def genMovieScreenShot(json,movieFile){
 	def picsString=""
 	(1..totalScreenShot).each{
 		def screenshotFile="${workspace}${it}.jpg"
-		def cmd="\"${ffmpeg}\" -ss ${it*averageSeconds} -i \"${movieFile}\" -vf \"scale=-1:240\" -f image2 -t 0.001 -y ${screenshotFile}"
+		def cmd=""
+		//因为ffmpeg截取rmvb视频会出现大量的色块，所以换用mplayer截图
+		if (movieFile.toLowerCase().endsWith("rmvb")){
+			cmd="\"${mplayer}\" \"${movieFile}\" -ss ${it*averageSeconds} -noframedrop -nosound -vf scale=415:-3 -vo jpeg -frames 1 "
+			cmd.execute().waitForProcessOutput( out, err )
+			if (new File("${it}.jpg").exists()) new File("${it}.jpg").delete()
+			new File("00000001.jpg").renameTo("${workspace}${it}.jpg")
+		}else{
+			cmd="\"${ffmpeg}\" -ss ${it*averageSeconds} -i \"${movieFile}\" -vf \"scale=415:-1\" -f image2 -t 0.001 -y ${screenshotFile}"
+			cmd.execute().waitForProcessOutput( out, err )
+		}
 		log.debug "action=screenshot cmd=${cmd}"
-		cmd.execute().waitForProcessOutput( out, err )
 		//给所有图片打上时间戳水印
 		def timestamp=new GregorianCalendar(0,0,0,0,0,(it*averageSeconds as BigDecimal)/1 as int,0).time.format('HH:mm:ss')
 		cmd="\"${convert}\" ${screenshotFile} -gravity SouthEast -font YaHei.Consolas.1.12.ttf -stroke Black -strokeWidth 2 -pointSize 16 -annotate 0 \"${timestamp}\" -stroke none -fill White -annotate 0 \"${timestamp}\" ${screenshotFile}"
@@ -137,9 +147,22 @@ def montage(picsString,movieJsonStr){
 	log.info "action=convert info=\"add movie title info.\""
 	cmd.execute().waitForProcessOutput(out,err)
 
+	//普通文字水印
+	/*
 	cmd="${convert} ${montageResult} -gravity NorthEast -fill Black -pointSize 44 -draw \"text 10,10 'FFmpeg & ImageMagick'\" ${montageResult} "
 	log.debug "action=AddWaterMark cmd=${cmd}"
 	log.info "action=AddWaterMark info=\"convert add text warter mark.\""
+	cmd.execute().waitForProcessOutput(out,err)
+	*/
+	//制作透明背景，带阴影的水印
+	/*
+	cmd="${convert} -size 520x65 xc:none -pointsize 44 -stroke black -strokewidth 2 -annotate +5+50 \"FFmpeg & ImageMagick\" -blur 0x6 -fill White -stroke Black -annotate +0+45 \"FFmpeg & ImageMagick\" watermark_shadow.png"
+	log.info "action=GenWaterMark cmd=\"${cmd}.\""
+	cmd.execute().waitForProcessOutput(out,err)
+	*/
+	//合成水印和剧情图
+	cmd="${composite} -dissolve 60 -gravity NorthEast -geometry +0+0 watermark_shadow.png ${montageResult} ${montageResult}"
+	log.info "action=composite cmd=\"${cmd}.\""
 	cmd.execute().waitForProcessOutput(out,err)
 
 	//清理生成的缩略图

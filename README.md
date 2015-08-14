@@ -1,0 +1,16 @@
+# workspace
+
+2015.8.14
+Ffmpeg截图rmvb格式视频花屏的问题。发现其实截图花屏不是不支持rmvb的问题，是因为快速跳转导致的，将-ss参数从第一个位置移到后边，再截图就非常清晰了，不过，时间啊，延长了几百倍……
+发现mplayer截图速度确实好快，4.3秒搞定rmvb，ffmpeg要6.5秒，慢了近50%了，不过mplayer貌似对超大文件，不如3G以上的mkv和mp4支持不好，经常会hang住，而ffmpeg则不会，所以后续考虑分开处理，对于rmvb都使用mplayer来处理
+mplayer截图不能指定文件名！此外，截图的时间戳貌似也不是很准确。
+关于图片宽度，目前用-1:240，针对16:9的视频，宽度是426.6，但是对于4:3的视频，只有320，拼接后明显宽度不够，导致convert上去的水印重叠了视频信息。所以可以修改为427:-1，这样就固定了宽度，高度可以按比例去调整。
+
+convert –background none –fill  blue  -font  Sylfaen  -pointsize 48    -stroke green    -strokewidth  2  -gravity center  -rotate 10  label:”Apple” wenzi.jpg
+
+composite  -dissolve 60  -gravity south  -geometry +0+60  wenzi.jpg new.jpg  new_watermark.jpg
+
+   实现文字水印,需要两步,第一步生成文字,使用convert完成, -background控制背景颜色, -fill 控制字体颜色,-font 控制字体, -pointsize 控制字体大小, -stroke控制字体边框颜色,-strokewidth控制边框宽度,-gravity控制位置,-rotate控制旋转的角度,label:"Apple",表示需要生成的文字,wenzi.jpg为要生成的图片.
+
+   使用composite命令行工具添加图片水印, -dissolve控制透明度, -gravity和 -geometry +0+60控制水印文字在背景图片上的位置."+0+60"是相对于前面的 -gravity确定的属性的.(
+

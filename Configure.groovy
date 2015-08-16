@@ -1,5 +1,5 @@
 //==是否测试模式 	"encoding":"cp936",
-testFlag=true
+testFlag=false
 //===ffmpeg路径设定===
 ffmpegDir="I:/development/ffmpeg-20150304-git-7da7d26-win64-static/bin/"
 ffmpeg=ffmpegDir+"ffmpeg.exe"
@@ -18,6 +18,7 @@ movieFile="J:/backup/done/[阳光电影www.ygdy8.com].赌侠2：上海滩赌圣.
 screenConfig=[
 	titleFlag:true,								//在montage的图上是否添加video meta
 	watermarkFlag:true,							//在montage的图上是否添加水印
+	replaceFlag:true,							//已经存在文件时是否覆盖
 	workspace:"./output/",						//临时图片输出路径
 	videoJson:null,								//video meta信息（json格式）
 	screenNumber:12,							//视频截图数量

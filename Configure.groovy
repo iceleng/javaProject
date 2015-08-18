@@ -1,5 +1,5 @@
 //==是否测试模式 	"encoding":"cp936",
-testFlag=false
+testFlag=true
 //===ffmpeg路径设定===
 ffmpegDir="I:/development/ffmpeg-20150304-git-7da7d26-win64-static/bin/"
 ffmpeg=ffmpegDir+"ffmpeg.exe"

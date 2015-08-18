@@ -14,3 +14,11 @@ composite  -dissolve 60  -gravity south  -geometry +0+60  wenzi.jpg new.jpg  new
 
    使用composite命令行工具添加图片水印, -dissolve控制透明度, -gravity和 -geometry +0+60控制水印文字在背景图片上的位置."+0+60"是相对于前面的 -gravity确定的属性的.(
 
+
+Groovy 1.6的新特性
+http://tech.it168.com/a2009/0514/276/000000276424_all.shtml
+
+@Newify
+
+抓取网络json数据并存入mongodb（1）
+http://blog.csdn.net/g1apassz/article/details/43817783

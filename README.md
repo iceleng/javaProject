@@ -1,5 +1,9 @@
 # workspace
 
+2015.8.29
+利用Mongodb的复制集搭建高可用分片，Replica Sets + Sharding的搭建过程
+http://www.cnblogs.com/javawebsoa/archive/2013/08/10/3249441.html
+
 2015.8.14
 Ffmpeg截图rmvb格式视频花屏的问题。发现其实截图花屏不是不支持rmvb的问题，是因为快速跳转导致的，将-ss参数从第一个位置移到后边，再截图就非常清晰了，不过，时间啊，延长了几百倍……
 发现mplayer截图速度确实好快，4.3秒搞定rmvb，ffmpeg要6.5秒，慢了近50%了，不过mplayer貌似对超大文件，不如3G以上的mkv和mp4支持不好，经常会hang住，而ffmpeg则不会，所以后续考虑分开处理，对于rmvb都使用mplayer来处理

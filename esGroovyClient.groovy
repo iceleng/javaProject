@@ -63,6 +63,7 @@ ListenableActionFuture<IndexResponse> responseFuture = client.index {
 }
 */
 
+/*
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse
 CreateIndexResponse response2 = client.admin.indices.create {
   index "icetest"
@@ -76,8 +77,96 @@ CreateIndexResponse response2 = client.admin.indices.create {
   }
 }.actionGet()
 println "create index successful."
+*/
 
+import org.elasticsearch.action.bulk.BulkResponse
+import org.elasticsearch.action.delete.DeleteRequest
+import org.elasticsearch.action.index.IndexRequest
+import org.elasticsearch.action.update.UpdateRequest
+import org.elasticsearch.client.Client
 
+// ...
+def testObj=[user:"ice",postDate:new Date(),here:1234,message:"this is import thing!"]
+def objList=[]
+for (int i=0;i<20;i++){
+    def obj= new IndexRequest().with {
+        index "syslog-01.15"
+        type "cir.sys.log"
+        //id "my_id"
+        source {
+          user = testObj.user
+          postDate = testObj.postDate
+          message = testObj.message
+          here=testObj.here+i
+        }
+      }
+    objList<<obj    
+}
+BulkResponse response3 = client.bulk {
+  add objList
+  /*add new IndexRequest().with {
+    index "syslog-01.15"
+    type "cir.sys.log"
+    //id "my_id"
+    source {
+      user = testObj.user
+      postDate = testObj.postDate
+      message = testObj.message
+      here=testObj.here
+    }
+  }
+  */  
+  /*
+  add new IndexRequest().with {
+    index "syslog-01.15"
+    type "cir.sys.log"
+    //id "my_id"
+    source {
+      user = "11111"
+      postDate = "2013-01-30"
+      message = "111trying out Elasticsearch"
+      nested {
+        details {
+          here = 123
+          timestamp = new Date()
+        }
+      }
+    }
+  }, 
+  new IndexRequest().with {
+    index "syslog-01.15"
+    type "cir.sys.log"
+    //id "my_id"
+    source {
+      user = "2222222"
+      postDate = "2013-01-30"
+      message = "111trying out Elasticsearch"
+      nested {
+        details {
+          here = 123
+          timestamp = new Date()
+        }
+      }
+    }
+  },
+  new IndexRequest().with {
+    index "syslog-01.15"
+    type "cir.sys.log"
+    //id "my_id"
+    source {
+      user = "333333"
+      postDate = "2013-01-30"
+      message = "111trying out Elasticsearch"
+      nested {
+        details {
+          here = 123
+          timestamp = new Date()
+        }
+      }
+    }
+  } 
+  */   
+}.actionGet()
 
 /*
 //// Purely Java way

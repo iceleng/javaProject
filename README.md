@@ -1,5 +1,9 @@
 # workspace
 
+2016.2.16
+blog.jobbole.com/category/programmer/
+
+
 2015.8.29
 利用Mongodb的复制集搭建高可用分片，Replica Sets + Sharding的搭建过程
 http://www.cnblogs.com/javawebsoa/archive/2013/08/10/3249441.html

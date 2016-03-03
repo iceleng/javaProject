@@ -1,7 +1,9 @@
 # workspace
 
 2016.3.3
+
 昨天安装插件失败有可能是logstash的版本问题，0.3.3需要2.1.1版本？
+
 Gemfile:gem "logstash-input-mongodb", "0.3.3", :path => "vendor/local_gems/8c3d662f/logstash-input-mongodb-0.3.3"
 
 Gemfile.jruby-1.9.lock
@@ -17,6 +19,25 @@ PATH
       stud
   logstash-input-mongodb (= 0.3.3)!      
 
+[elk docker setup](https://github.com/elastic/examples/tree/master/ELK_docker_setup)
+
+流程图？
+
+st=>start: Start|past:>http://www.google.com[blank]
+e=>end: End:>http://www.google.com
+op1=>operation: My Operation|past
+op2=>operation: Stuff|current
+sub1=>subroutine: My Subroutine|invalid
+cond=>condition: Yes 
+or No?|approved:>http://www.baidu.com
+c2=>condition: Good idea|rejected
+io=>inputoutput: catch something...|request
+
+st->op1(right)->cond
+cond(yes, right)->c2
+cond(no)->sub1(left)->op1
+c2(yes)->io->e
+c2(no)->op2->e
 
 2016.2.28
 [grape简介](http://ifeve.com/groovy-grape/)

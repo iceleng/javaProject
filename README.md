@@ -1,5 +1,23 @@
 # workspace
 
+2016.3.3
+昨天安装插件失败有可能是logstash的版本问题，0.3.3需要2.1.1版本？
+Gemfile:gem "logstash-input-mongodb", "0.3.3", :path => "vendor/local_gems/8c3d662f/logstash-input-mongodb-0.3.3"
+
+Gemfile.jruby-1.9.lock
+PATH
+  remote: vendor/local_gems/8c3d662f/logstash-input-mongodb-0.3.3
+  specs:
+    logstash-input-mongodb (0.3.3)
+      jdbc-sqlite3 (= 3.8.10.1)
+      logstash-codec-plain
+      logstash-core (>= 2.0.0.beta2, < 3.0.0)
+      mongo (>= 2.0.0)
+      sequel
+      stud
+  logstash-input-mongodb (= 0.3.3)!      
+
+
 2016.2.28
 [grape简介](http://ifeve.com/groovy-grape/)
 

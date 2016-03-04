@@ -3,6 +3,13 @@
 2016.3.4
 数据库排名 
 http://db-engines.com/en/ranking
+DB-Engines排行榜排出了目前最聚人气的数据库管理系统，该排行榜分析了市场上200多个不同类型的数据库。其排行规则是根据
+1. 它们在Google和Bing上搜索出的结果数目、
+2. Google Trends上的搜索次数、
+2. Indeed上的职位数目、
+3. LinkedIn中提到的次数、
+4. Stackoverflow上的提问以及回复的数量，
+这五大因素作为依据所排出的最新榜单。（详情请看 Ranking Method）(http://db-engines.com/en/ranking_definition)
 
 2016.3.3
 

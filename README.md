@@ -1,5 +1,11 @@
 # workspace
 
+2016.5.9
+ELK logstash 处理MySQL慢查询日志(26th)(http://www.ttlsa.com/elk/elk-elasticsearch-plugin-management/)
+里面有关于解析错误重定向到文件的用法，不错，值得借鉴。
+
+
+
 2016.3.4
 数据库排名 
 http://db-engines.com/en/ranking

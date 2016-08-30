@@ -1,0 +1,98 @@
+//Java Gradle入门指南之内建与定制任务类（buildSrc、Groovy等）
+//http://www.cnblogs.com/gzdaijie/p/5285160.html
+
+buildscript {
+	ext {
+		springBootVersion = '1.4.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		//指定其他的maven仓库
+		//maven { url "http://repo.spring.io/libs-snapshot" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+//默认好像就是java
+//apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+
+//指定java和groovy源代码位置，如果不指定，默认就是src.main.java和src.main.groovy
+sourceSets {
+	main {
+		java {
+		  srcDirs = ["${projectDir}/src/java"]
+		}
+		groovy {
+		  srcDirs = ["${projectDir}/src/groovy"]
+		}
+	}
+}
+
+jar {
+	baseName = 'microWeb'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'org.codehaus.groovy:groovy-all:2.4.6'
+	compile('org.springframework.boot:spring-boot-starter-web')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+public class TestTask{
+	public String sayHello(){
+		return "hello ice";
+	}
+}
+
+class HelloTask {
+	String hiTask() {
+		println "This is hi task test."
+	}
+}
+
+//从零开始学习Gradle之二---如何使用Task
+//http://www.blogjava.net/wldandan/archive/2012/07/05/382246.html
+task runApp << {
+    //def mwa = new com.ice.HelloTask()
+    def mwa = new HelloTask()
+    mwa.hiTask()
+    println "hello gradle."
+    println "${springBootVersion}"
+    println "${projectDir}"
+}
+
+class GroovyClass {
+    void foo() {
+        println 'foo'
+    }
+}
+
+task fooTask << {
+    GroovyClass g = new GroovyClass()
+    g.foo()
+}
+
+println "the project name is $name"
+task hello << {
+    println "the current task name is $name"
+    println "hello world"
+}
+
+eclipse {
+	classpath {
+		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+	}
+}

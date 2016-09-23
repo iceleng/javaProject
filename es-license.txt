@@ -1,0 +1,9 @@
+package org.elasticsearch.license.core;
+
+public class LicenseVerifier{
+	public static boolean verifyLicense(License license, byte[] encryptedPublicKeyData){
+		return true;
+	}
+}
+
+javac -encoding UTF-8 -cp ..\license\license-core-2.3.4.jar org\elasticsearch\license\core\LicenseVerifier.java

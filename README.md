@@ -1,5 +1,12 @@
 # workspace
 
+2016.12.14
+网件(NETGEAR)路由器无线中继设置教程
+http://www.192ly.com/router-settings/netgear/wds-2.html
+NETGEAR无线路由器无线中继（WDS）功能介绍
+http://club.netgear.cn/Knowledgebase/Document.aspx?Did=234
+http://net.zol.com.cn/310/3104944.html
+
 2016.5.9
 ELK logstash 处理MySQL慢查询日志(26th)(http://www.ttlsa.com/elk/elk-elasticsearch-plugin-management/)
 里面有关于解析错误重定向到文件的用法，不错，值得借鉴。

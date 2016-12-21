@@ -1,0 +1,102 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.2.RELEASE'
+	}
+	repositories {
+        jcenter()
+        //mavenCentral()
+        //maven { url 'http://repo.spring.io/snapshot' }
+        //maven { url 'http://repo.spring.io/milestone' }	
+	    //maven { url "http://repo.maven.apache.org/maven2" }
+	    //maven { url "http://central.maven.org/maven2" }
+	    //maven { url "http://repo1.maven.org/maven2" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		//classpath 'com.h2database:h2:1.4.192'
+	}
+}
+
+//apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+bootRepackage {
+    mainClass = 'com.ice.Application'
+}
+
+//Getting Started With Gradle: Integration Testing
+//https://www.petrikainulainen.net/programming/gradle/getting-started-with-gradle-integration-testing/
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}
+
+//compileJava.options.encoding = 'UTF-8'
+//compileTestJava.options.encoding = 'UTF-8'
+
+//bootRun {
+//	jvmArgs = ["-Dfile.encoding=UTF-8"]
+//}
+
+allprojects {
+    tasks.withType(JavaCompile) {
+    //  options.encoding = 'UTF-8'
+    	options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" 
+    }
+        
+    tasks.withType(Test) {
+       systemProperty "file.encoding", "UTF-8"
+    }
+}
+
+task printSys << {
+  println "file.encoding sys property = " + System.properties["file.encoding"]
+  println "foo env variable = " + System.getenv("foo")
+}
+
+springBoot {
+    //mainClass = "com.ice.ChangePasswdController"
+	mainClass = "com.ice.Application"
+}
+
+jar {
+	baseName = 'ChangePasswdService'
+	version = '0.0.1-SNAPSHOT'
+}
+
+repositories {
+    //jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+ 	compile "org.springframework.boot:spring-boot-starter-actuator"   
+ 	compile "org.springframework.boot:spring-boot-starter-thymeleaf"   
+ 	compile "org.springframework.boot:spring-boot-starter-jdbc"   
+	compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.3.3'
+	compile 'com.h2database:h2:1.4.192'
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile "junit:junit:4.12"
+    integrationTestCompile 'org.springframework.boot:spring-boot-starter-test'
+}

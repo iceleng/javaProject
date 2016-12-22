@@ -1,5 +1,26 @@
 # workspace
 
+2016.12.22
+Dropwizard-metrics：
+https://github.com/dropwizard/metrics
+http://metrics.dropwizard.io/3.1.0/manual/core/#reporters
+http://metrics.dropwizard.io/3.1.0/apidocs/
+http://blog.csdn.net/scutshuxue/article/details/8351810
+http://ningg.top/yammer-metrics/
+
+图形化展示指标数据：
+https://my.oschina.net/chkui/blog/707632
+
+Metrics 是个什么鬼 之入门教程
+http://wuchong.me/blog/2015/08/01/getting-started-with-metrics/
+以 Java 为例，目前最为流行的 metrics 库是来自 Coda Hale 的 dropwizard/metrics，该库被广泛地应用于各个知名的开源项目中。例如 Hadoop，Kafka，Spark，JStorm 中。
+
+Metrics —— JVM上的实时监控类库
+http://www.jianshu.com/p/e4f70ddbc287
+系统开发到一定的阶段，线上的机器越来越多，就需要一些监控了，除了服务器的监控，业务方面也需要一些监控服务。Metrics作为一款监控指标的度量类库，提供了许多工具帮助开发者来完成自定义的监控工作。
+
+
+
 2016.12.14
 网件(NETGEAR)路由器无线中继设置教程
 http://www.192ly.com/router-settings/netgear/wds-2.html

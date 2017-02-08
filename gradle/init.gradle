@@ -1,3 +1,6 @@
+//https://yrom.net/blog/2015/02/07/change-gradle-maven-repo-url/
+//将下面这段Copy到名为init.gradle文件中，并保存到 USER_HOME/.gradle/文件夹下即可。
+
 allprojects{
     repositories {
         //def REPOSITORY_URL = 'http://maven.oschina.net/content/groups/public'

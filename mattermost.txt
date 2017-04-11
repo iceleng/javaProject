@@ -1,0 +1,66 @@
+终于搞定了mattermost中显示grafana图片的问题了，哈哈！
+
+https://docs.mattermost.com/install/docker-local-machine.html#one-line-docker-install
+
+--官方的安装指导，这种是带数据的localhost安装用，生产环境其是用docker compose来做的。
+docker run --name mattermost-preview -d --publish 8065:8065 mattermost/mattermost-preview
+
+--server docker config
+https://docs.mattermost.com/install/prod-docker.html
+
+--进入系统后可以修改语言为中文，然后commit再启动才会生效。
+docker commit 7fdc75b05751 mattermost/ice
+docker run --name mattermost-preview -d --publish 8065:8065 mattermost/ice
+
+===============
+grafana中的配置：
+
+default.ini中做如下配置：
+provider = webdav
+url = http://localhost:8088/webdav
+
+其中webdav是用tomcat搭建的。其配置如下：
+在webapps中创建webdav目录
+然后在其下创建WEB-INF目录
+再在其中创建web.xml配置，内容如下：
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  version="2.5">
+<servlet>
+<servlet-name>webdav</servlet-name>
+<servlet-class>org.apache.catalina.servlets.WebdavServlet</servlet-class>
+<init-param>
+  <param-name>debug</param-name>
+  <param-value>0</param-value>
+</init-param>
+<init-param>
+  <param-name>listings</param-name>
+  <param-value>true</param-value>
+</init-param>
+<init-param>
+  <param-name>readonly</param-name>
+  <param-value>false</param-value>
+</init-param>
+<init-param>
+  <param-name>allowSpecialPaths</param-name>
+  <param-value>true</param-value>
+</init-param>
+<!--load-on-startup>1</load-on-startup-->
+</servlet>
+
+<servlet-mapping>
+<servlet-name>webdav</servlet-name>
+<url-pattern>/*</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+  <servlet-name>webdav</servlet-name>
+  <url-pattern>/webdavedit/*</url-pattern>
+</servlet-mapping>
+</web-app>
+=============================================
+其他就是grafana中的配置了。
+
+配置数据源->创建dashobard->创建alert的notification->在graph中创建alert->关联notification->登录mattermost，查看带图片的alert告警，帅！

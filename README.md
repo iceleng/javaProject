@@ -1,4 +1,11 @@
 # workspace
+
+**2017.04.13** 
+1、grafana的alert管理：需要有看板统计当前有多少告警未关闭，并能导航到未关闭的告警面板
+2、jvm监控，包括gc的频率、heap堆大小，并能在其达到阈值时推送告警
+3、中间件线程池监控（tomcat）
+4、
+
 **2017.03.15** 
 [groovy注解](http://www.cnblogs.com/varlxj/p/5181703.html)
 
